@@ -10,7 +10,7 @@ module EtCloudWatch
                            "Value" => node['ec2']['instance_id'] }],
         'EvaluationPeriods' => new_resource.evaluation_periods,
         'MetricName' => new_resource.metric_name,
-        'Namespace' => 'AWS/EC2',
+        'Namespace' => new_resource.namespace,
         'OKActions' => new_resource.ok_actions,
         'Period' => new_resource.period,
         'Statistic' => new_resource.statistic,

@@ -51,6 +51,9 @@ class Chef
     attribute :period,
               kind_of: Integer,
               default: 300
+    attribute :namespace,
+              kind_of: String,
+              default: 'AWS/EC2'
 
     attr_writer :enabled, :exists
 
@@ -184,6 +187,7 @@ class Chef
          comparison_operator
          evaluation_periods
          metric_name
+         namespace
          period
          statistic
          threshold).each do |r|
