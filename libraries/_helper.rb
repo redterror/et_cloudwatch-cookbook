@@ -6,8 +6,7 @@ module EtCloudWatch
         'AlarmActions' => find_actions(new_resource.alarm_actions),
         'AlarmDescription' => new_resource.alarm_description,
         'ComparisonOperator' => new_resource.comparison_operator,
-        'Dimensions' => [{ "Name" => "InstanceId",
-                           "Value" => node['ec2']['instance_id'] }],
+        'Dimensions' => Array(new_resource.dimensions).dup,
         'EvaluationPeriods' => new_resource.evaluation_periods,
         'MetricName' => new_resource.metric_name,
         'Namespace' => new_resource.namespace,
@@ -23,6 +22,10 @@ module EtCloudWatch
 
       if new_resource.insufficient_data_actions
         alarm_options['InsufficientDataActions'] = find_actions(new_resource.insufficient_data_actions)
+      end
+
+      if alarm_options['Dimensions'].detect{|dim| dim['Name'] == 'InstanceId'}.nil?
+        alarm_options['Dimensions'] << { "Name" => "InstanceId", "Value" => node['ec2']['instance_id'] }
       end
 
       fog_cw.put_metric_alarm alarm_options

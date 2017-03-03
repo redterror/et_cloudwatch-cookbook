@@ -54,6 +54,8 @@ class Chef
     attribute :namespace,
               kind_of: String,
               default: 'AWS/EC2'
+    attribute :dimensions,
+              kind_of: Array
 
     attr_writer :enabled, :exists
 
